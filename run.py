@@ -25,12 +25,8 @@ CLIMATEMPO_TOKEN = config.token
 
 class Analise(Resource):
     def get(self):
-        data_inicial = datetime.strptime(
-            request.args['data_inicial'], '%Y-%m-%d'
-        )
-        data_final = datetime.strptime(
-            request.args['data_final'], '%Y-%m-%d'
-        )
+        data_inicial = self._validate_data_input(request.args['data_inicial'])
+        data_final = self._validate_data_input(request.args['data_final'])
         cidade_mais_quente = models.Cidade.cidade_mais_quente(
             data_inicial, data_final)
         precipitacao_media = models.Cidade.precipitacao_media(
@@ -44,6 +40,9 @@ class Analise(Resource):
             response=dumps(data),
             mimetype='application/json'
         )
+
+    def _validate_data_input(self, input):
+        return datetime.strptime( input, '%Y-%m-%d')
 
 
 class Cidade(Resource):
