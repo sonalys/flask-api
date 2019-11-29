@@ -31,9 +31,9 @@ class Analise(Resource):
         data_final = datetime.strptime(
             request.args['data_final'], '%Y-%m-%d'
         )
-        cidade_mais_quente = models.Cidade.get_cidade_mais_quente(
+        cidade_mais_quente = models.Cidade.cidade_mais_quente(
             data_inicial, data_final)
-        precipitacao_media = models.Cidade.get_precipitacao_media(
+        precipitacao_media = models.Cidade.precipitacao_media(
             data_inicial, data_final)
 
         data = {

@@ -21,7 +21,7 @@ class Cidade(db.Model):
     estado = db.Column(db.String(30), nullable=False)
     pais = db.Column(db.String(20), nullable=False)
 
-    def get_cidade_mais_quente(data_inicial, data_final):
+    def cidade_mais_quente(data_inicial, data_final):
         maior_temperatura = db.session.query(
             Previsao.cidade, db.func.max(Previsao.max).label('mt')
         ).filter(
@@ -34,7 +34,7 @@ class Cidade(db.Model):
         ).first()
         return cidade_mais_quente
 
-    def get_precipitacao_media(data_inicial, data_final):
+    def precipitacao_media(data_inicial, data_final):
         precipitacao_media = db.session.query(
             Previsao.cidade, db.func.avg(Previsao.precipitacao).label('avg')
         ).filter(
