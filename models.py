@@ -3,7 +3,7 @@ from run import db
 
 class Previsao(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    cidade = db.Column(db.Integer, nullable=False)
+    cidade = db.Column(db.Integer, db.ForeignKey('cidade.id'), nullable=False)
     data = db.Column(db.Date, nullable=False)
     probabilidade = db.Column(db.Float, nullable=False)
     precipitacao = db.Column(db.Float, nullable=False)
@@ -11,7 +11,7 @@ class Previsao(db.Model):
     max = db.Column(db.Float, nullable=False)
 
     __table_args__ = (
-        db.UniqueConstraint('data', 'cidade', name="_prevision_per_city"),
+        db.UniqueConstraint('data', 'cidade', name="uma_data_por_cidade"),
     )
 
 

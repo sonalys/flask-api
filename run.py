@@ -4,10 +4,7 @@ from datetime import datetime
 
 from flask import Flask, request
 from flask_restful import Resource, Api, reqparse
-from flask.json import jsonify
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import exc
-import sqlite3
 
 import config
 import models
@@ -29,9 +26,11 @@ CLIMATEMPO_TOKEN = config.token
 class Analise(Resource):
     def get(self):
         data_inicial = datetime.strptime(
-            request.args['data_inicial'], '%Y-%m-%d')
-        data_final = datetime.strptime(request.args['data_final'], '%Y-%m-%d')
-
+            request.args['data_inicial'], '%Y-%m-%d'
+        )
+        data_final = datetime.strptime(
+            request.args['data_final'], '%Y-%m-%d'
+        )
         cidade_mais_quente = models.Cidade.get_cidade_mais_quente(
             data_inicial, data_final)
         precipitacao_media = models.Cidade.get_precipitacao_media(
