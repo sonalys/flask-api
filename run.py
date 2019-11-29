@@ -52,14 +52,23 @@ class Cidade(Resource):
 
     def _pegar_dados_climatempo(self, id):
         url = f'http://apiadvisor.climatempo.com.br/api/v1/forecast/locale/{id}/days/15?token={CLIMATEMPO_TOKEN}'
-        response = requests.get(url).json()
+        request = requests.get(url)
+        response = request.json()
+
+        if request.status_code != 200:
+            return "Erro ao obter dados"
+
         cidade = models.Cidade(
+            id=id,
             nome=response["name"],
             estado=response["state"],
             pais=response["country"]
         )
         db.session.merge(cidade)
         db.session.commit()
+
+        if not cidade.id:
+            return "Erro ao inserir cidade no banco"
 
         lista_previsoes = response["data"]
 
@@ -75,7 +84,7 @@ class Cidade(Resource):
             db.session.merge(previsao)
             db.session.commit()
 
-        return "ok"
+        return "Dados inseridos com sucesso"
 
 
 api.add_resource(Analise, '/analise')
